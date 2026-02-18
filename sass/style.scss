@@ -6,6 +6,9 @@ $text-color: #333;
 $font-base: "Noto Serif JP", serif;
 $font-weight-semiBold: 600;
 
+$header-height-sp: 60px;
+$header-height-pc: 70px;
+
 $breakpoints: (
   sm: "screen and (min-width: 600px)",
   md: "screen and (min-width: 768px)",
@@ -25,4 +28,147 @@ body {
   font-family: $font-base;
   font-weight: 300;
   line-height: 170%;
+
+  &.is-fixed {
+    overflow: hidden;
+  }
+}
+
+.inner {
+  padding-inline: 15px;
+
+  @include mq(md) {
+    margin-inline: auto;
+    padding-inline: 40px;
+    max-width: calc(1200px + 40px * 2);
+  }
+}
+
+// header
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $header-height-sp;
+
+  @include mq(md) {
+    height: $header-height-pc;
+  }
+}
+
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: inherit;
+}
+
+.header__logo {
+  a {
+    img {
+      display: block;
+      width: 120px;
+    }
+  }
+}
+
+.header__icon {}
+
+.header__nav {
+  position: fixed;
+  top: $header-height-sp;
+  right: 0;
+  padding: calc(40px - 8px) 15px;
+  width: 270px;
+  height: calc(100svh - $header-height-sp);
+  background: $main-color;
+  transform: translateX(100%);
+  transition: transform 0.4s;
+
+  &.is-checked {
+    transform: translateX(0);
+  }
+
+  @include mq(md) {
+    position: static;
+    padding: 0;
+    width: auto;
+    height: auto;
+    background: transparent;
+    transform: translateX(0);
+  }
+}
+
+.header__lists {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(32px - 8px * 2);
+
+  @include mq(md) {
+    flex-direction: row;
+    align-items: center;
+    gap: 46px;
+  }
+}
+
+.header__list {}
+
+.header__link {
+  display: inline-block;
+  padding-block: 8px;
+  font-size: 18px;
+  color: #fff;
+
+  @include mq(md) {
+    font-size: 16px;
+    color: $text-color;
+  }
+}
+
+.drawer-icon {
+  width: 30px;
+  height: 18px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 51;
+
+  @include mq(md) {
+    display: none;
+  }
+
+  &.is-checked {
+    .drawer-icon__bar {
+      &:nth-child(1) {
+        transform: translateY(0) rotate(45deg);
+      }
+
+      &:nth-child(2) {
+        display: none;
+      }
+
+      &:nth-child(3) {
+        transform: translateY(0) rotate(-45deg);
+      }
+    }
+  }
+}
+
+.drawer-icon__bar {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: $main-color;
+  transition: transform 0.3s;
+
+  &:nth-child(1) {
+    transform: translateY(-8px);
+  }
+
+  &:nth-child(3) {
+    transform: translateY(8px);
+  }
 }
